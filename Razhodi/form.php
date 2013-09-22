@@ -16,7 +16,7 @@ if($_POST){
         $error=true;
     }
     
-    if($cost<0){
+    if($cost <= 0){
         echo '<p>невалидна сума</p>';
         $error=true;
     }    

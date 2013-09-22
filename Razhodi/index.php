@@ -38,9 +38,9 @@ include 'includes/header.php';
         <td>Вид</td>
     </tr>
     <?php
+	$sum=0;
     if(file_exists('data.txt')){
         $result=  file('data.txt');
-		$sum=0;
 	
         foreach ($result as $value) {						
             $columns=  explode('!', $value);  				 							
@@ -53,7 +53,8 @@ include 'includes/header.php';
 						<td>'.$columns[2].'</td>
 						<td>'.$type[trim($columns[3])].'</td>
 						</tr>';
-				}				
+					$sum+= (float)$columns[2];
+				}					
 			}
 			else {
 				echo '<tr>
@@ -61,20 +62,20 @@ include 'includes/header.php';
 					<td>'.$columns[1].'</td>
 					<td>'.$columns[2].'</td>
 					<td>'.$type[trim($columns[3])].'</td>
-					</tr>';					
-			}
-		$sum+= (float)$columns[2];			
+					</tr>';		
+				$sum+= (float)$columns[2];
+			}					
         }
-    }
-    
+		$sum = round($sum, 2);
+    } 		
     ?>
-    <tr>
+		
+	<tr>
 		<td> -- </td>	
-        <td> -- </td>
-        <td><?php echo $sum ?></td>
-        <td> -- </td>
-    </tr>    
-    
+		<td> -- </td>
+		<td><?php echo $sum ?></td>
+		<td> -- </td>
+	</tr>      
 </table>
 
 <?php
