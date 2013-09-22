@@ -4,13 +4,22 @@ $pageTitle = 'Форма';
 include 'includes/header.php';
 
 if($_POST){
-	$date = date("d.m.Y");	
+//	$date = date("d.m.Y");	
     $costname=trim($_POST['costname']);
     $costname=  str_replace('!', '', $costname);
     $cost=trim($_POST['cost']);
     $cost=  (float)str_replace('!', '', $cost);
     $selectedType=(int)$_POST['type'];
     $error=false;
+
+	$date=trim($_POST['date']);	
+	$date = strtotime("$date 00:00:01");
+	if (!$date){		 
+		echo '<p>Невалидна дата. Датата трябва да бъде във формат "дд.мм.гггг"</p>';	
+		$error=true;
+	} 
+	else $date = date('d M Y', $date);
+	
     if(mb_strlen($costname)<4){
         echo '<p>Името е прекалено късо</p>';
         $error=true;
@@ -39,6 +48,7 @@ if($_POST){
 <a href="index.php">Списък</a>
 
 <form method="POST">
+    <div>Дата:<input type="text" name="date" /></div>
     <div>Име:<input type="text" name="costname" /></div>
     <div>Сума:<input type="text" name="cost" /></div>
     <div>Вид:
@@ -53,6 +63,7 @@ if($_POST){
     </div>        
     <div><input type="submit" value="Добави" /></div>
 </form>
+
 <?php
 include 'includes/footer.php';
 ?>

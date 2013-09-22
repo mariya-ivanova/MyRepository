@@ -7,8 +7,10 @@ include 'includes/header.php';
 <form method="POST">
 	<div>
     <span>Вид:
-        <select name="type">
-			<?php if(!$_POST['type']||$_POST['type'] == 'all') { 	
+        <select name="type">			
+			<?php 
+			/* да се показва избраната стойност, а не тази по подразбиране */
+			if(!$_POST['type']||$_POST['type'] == 'all') { 	
 				echo '<option value="all" selected >Всички</option>'; 				
 				foreach ($type as $key=>$type_value) {						
 					echo '<option value="'.$key.'">' . $type_value . '</option>';
@@ -43,9 +45,11 @@ include 'includes/header.php';
         $result=  file('data.txt');
 	
         foreach ($result as $value) {						
-            $columns=  explode('!', $value);  				 							
-			if($_POST){
+            $columns=  explode('!', $value);  	
+			
+			if($_POST){				
 				$selected_type=trim($_POST['type']);	
+				/* да се показват само разходите за избрания филтър и тяхната сума */
 				if((int)$columns[3] == $selected_type || $selected_type == 'all'){			
 					echo '<tr>
 						<td>'.$columns[0].'</td>
@@ -56,6 +60,7 @@ include 'includes/header.php';
 					$sum+= (float)$columns[2];
 				}					
 			}
+			/* при първоначално зареждане на страницата да се показват всички разходи и тяхната сума */
 			else {
 				echo '<tr>
 					<td>'.$columns[0].'</td>
