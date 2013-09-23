@@ -43,7 +43,7 @@ include 'includes/header.php';
 	$sum=0;
     if(file_exists('data.txt')){
         $result=  file('data.txt');
-	
+		
         foreach ($result as $value) {						
             $columns=  explode('!', $value);  	
 			

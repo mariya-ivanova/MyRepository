@@ -19,6 +19,7 @@ if($_POST){
 		$error=true;
 	} 
 	else $date = date('d M Y', $date);
+	/* ако не е въведена дата, да се взема днешната дата */
 	
     if(mb_strlen($costname)<4){
         echo '<p>Името е прекалено късо</p>';
@@ -38,7 +39,7 @@ if($_POST){
         $result=$date.'!'.$costname.'!'.$cost.'!'.$selectedType."\n";
         if(file_put_contents('data.txt', $result,FILE_APPEND))
         {
-            echo 'Записът е успешен';
+            echo 'Записът е успешен. <br/>';
         }
     }
         
