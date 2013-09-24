@@ -3,8 +3,7 @@ mb_internal_encoding('UTF-8');
 $pageTitle = 'Форма';
 include 'includes/header.php';
 
-if($_POST){
-//	$date = date("d.m.Y");	
+if($_POST){	
     $costname=trim($_POST['costname']);
     $costname=  str_replace('!', '', $costname);
     $cost=trim($_POST['cost']);
