@@ -1,6 +1,9 @@
 <?php
 $pageTitle='Списък';
 include 'includes/header.php';
+if (isset($_GET['message'])) {
+	if ($_GET['message'] == 'success') {echo 'Успешно изтрит запис.<br/>';} 
+}
 ?>
 <a href="form.php">Добави нов разход</a>
 
@@ -30,7 +33,7 @@ include 'includes/header.php';
     </span>  
 	<span><input type="submit" value="Филтрирай" /></span>
     </div>
-</form>
+</form>  
 
 <table border="1">
     <tr>
@@ -38,15 +41,18 @@ include 'includes/header.php';
         <td>Име</td>
         <td>Сума</td>
         <td>Вид</td>
+		<td>Изтрий</td>
     </tr>
     <?php
 	$sum=0;
     if(file_exists('data.txt')){
-        $result=  file('data.txt');
+        $result= file('data.txt');
 		
-        foreach ($result as $value) {						
+        foreach ($result as $row=>$value) {						
             $columns=  explode('!', $value);  	
-			
+			if (count($columns) < 4) {
+                continue;
+            }
 			if($_POST){				
 				$selected_type=trim($_POST['type']);	
 				/* да се показват само разходите за избрания филтър и тяхната сума */
@@ -54,8 +60,12 @@ include 'includes/header.php';
 					echo '<tr>
 						<td>'.$columns[0].'</td>
 						<td>'.$columns[1].'</td>
-						<td>'.$columns[2].'</td>
+						<td>'.number_format($columns[2], 2).'</td>
 						<td>'.$type[trim($columns[3])].'</td>
+						<td>
+							<a href="delete.php?delete_element='.$row.'">Изтрий</a>
+							
+						</td>
 						</tr>';
 					$sum+= (float)$columns[2];
 				}					
@@ -65,13 +75,16 @@ include 'includes/header.php';
 				echo '<tr>
 					<td>'.$columns[0].'</td>
 					<td>'.$columns[1].'</td>
-					<td>'.$columns[2].'</td>
+					<td>'.number_format($columns[2], 2).'</td>
 					<td>'.$type[trim($columns[3])].'</td>
+					<td>
+						<a href="delete.php?delete_element='.$row.'">Изтрий</a>
+					</td>					
 					</tr>';		
 				$sum+= (float)$columns[2];
 			}					
         }
-		$sum = round($sum, 2);
+		$sum = number_format($sum, 2);
     } 		
     ?>
 		
@@ -80,9 +93,10 @@ include 'includes/header.php';
 		<td> -- </td>
 		<td><?php echo $sum ?></td>
 		<td> -- </td>
+		<td> -- </td>
 	</tr>      
 </table>
 
 <?php
 include 'includes/footer.php';
-?>
+?>	

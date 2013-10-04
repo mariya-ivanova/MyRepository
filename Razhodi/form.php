@@ -3,10 +3,11 @@ mb_internal_encoding('UTF-8');
 $pageTitle = 'Форма';
 include 'includes/header.php';
 
-if($_POST){	
+if($_POST){
     $costname=trim($_POST['costname']);
     $costname=  str_replace('!', '', $costname);
     $cost=trim($_POST['cost']);
+	$cost= str_replace(',', '.', $cost);
     $cost=  (float)str_replace('!', '', $cost);
     $selectedType=(int)$_POST['type'];
     $error=false;
@@ -36,13 +37,14 @@ if($_POST){
 	
     if(!$error){
         $result=$date.'!'.$costname.'!'.$cost.'!'.$selectedType."\n";
-        if(file_put_contents('data.txt', $result,FILE_APPEND))
+        if(file_put_contents('data.txt', $result, FILE_APPEND))
         {
             echo 'Записът е успешен. <br/>';
         }
     }
         
 }
+
 
 ?>
 <a href="index.php">Списък</a>
@@ -67,3 +69,4 @@ if($_POST){
 <?php
 include 'includes/footer.php';
 ?>
+	
